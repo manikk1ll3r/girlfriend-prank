@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Girlfriend Prank</title>
+  <style>
+    /* [All your original CSS is preserved here except the bug fix] */
+    /* Updated fall keyframe animation */
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+        transform: translateX(0);
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+        transform: translateX(calc(var(--x-offset) * 100px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>❤️ Will You Be My Girlfriend? ❤️</h1>
+
+    <div class="message">
+      <p>Hey there! I have something important to ask you...</p>
+      <p>Will you go out with me?</p>
+    </div>
+
+    <div class="buttons-container">
+      <button id="yes-btn" class="btn">Yes</button>
+      <button id="no-btn" class="btn">No</button>
+    </div>
+
+    <div id="response" class="response">
+      <h2>Yay! You Said Yes! 🎉</h2>
+      <p>You've made me the happiest person in the world!</p>
+      <p>I promise to always cherish and care for you! ❤️</p>
+    </div>
+
+    <div class="instructions">
+      <h3>How to Host This Page:</h3>
+      <ol>
+        <li>Save this file as <code>girlfriend-prank.html</code></li>
+        <li>Upload it to a free host like GitHub Pages, Netlify, or Vercel</li>
+        <li>Share the link and watch the fun unfold!</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="hearts" id="hearts-container"></div>
+
+  <!-- Optional: Background music (you can change/remove the URL) -->
+  <audio id="romantic-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const noBtn = document.getElementById('no-btn');
+      const yesBtn = document.getElementById('yes-btn');
+      const response = document.getElementById('response');
+      const heartsContainer = document.getElementById('hearts-container');
+      const buttonsContainer = document.querySelector('.buttons-container');
+      const music = document.getElementById('romantic-music');
+
+      function moveNoButton() {
+        const buttonWidth = noBtn.offsetWidth;
+        const buttonHeight = noBtn.offsetHeight;
+        const maxX = window.innerWidth - buttonWidth - 30;
+        const maxY = window.innerHeight - buttonHeight - 30;
+        const newX = Math.max(30, Math.random() * maxX);
+        const newY = Math.max(30, Math.random() * maxY);
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = `${newX}px`;
+        noBtn.style.top = `${newY}px`;
+        noBtn.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          noBtn.style.transform = 'scale(1)';
+        }, 300);
+      }
+
+      noBtn.addEventListener('mouseover', moveNoButton);
+      noBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+      noBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+
+      yesBtn.addEventListener('click', function () {
+        response.style.display = 'block';
+        createHearts();
+        createConfetti();
+        buttonsContainer.style.display = 'none';
+        document.querySelector('.message').innerHTML = `
+          <p>Congratulations! You've made a great choice!</p>
+          <p>I'm so happy you said yes! ❤️</p>
+        `;
+
+        // Play romantic background music
+        music.play().catch(() => {});
+      });
+
+      function createHearts() {
+        const heartEmojis = ['❤️', '💕', '💖', '💗', '💘', '💝', '💞', '💓'];
+        setInterval(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+          heart.style.left = `${Math.random() * 100}%`;
+          heart.style.setProperty('--x-offset', (Math.random() - 0.5) * 2);
+          const size = Math.random() * 2 + 1;
+          heart.style.fontSize = `${size}rem`;
+          const duration = Math.random() * 5 + 5;
+          heart.style.animationDuration = `${duration}s`;
+          heartsContainer.appendChild(heart);
+          setTimeout(() => {
+            heart.remove();
+          }, duration * 1000);
+        }, 300);
+      }
+
+      function createConfetti() {
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+        for (let i = 0; i < 150; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.width = `${Math.random() * 15 + 5}px`;
+            confetti.style.height = `${Math.random() * 15 + 5}px`;
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            confetti.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(confetti);
+            setTimeout(() => {
+              confetti.remove();
+            }, 5000);
+          }, i * 30);
+        }
+      }
+
+      // Just for fun
+      console.log("Hey 👀 What are you doing here? Planning to steal this idea huh? 😄");
+    });
+  </script>
+</body>
+</html>
